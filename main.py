@@ -10,11 +10,10 @@ choise={"genre":genre,
         "episodes_total": episodes}
 response.raise_for_status()
 response=requests.get(url, params=choise)
-print(response.json())
 print('Название:',response.json()['title'])
 print("Озвучка:",response.json()['translate'])
-print("Кол-во эпизодов",response.json()['material_data']['episodes_total'])
+print("Кол-во эпизодов:",response.json()['material_data']['episodes_total'])
 print("Год выпуска:",response.json()['year'])
-print("Описание",response.json()['material_data']['description'])
+print("Описание:",response.json()['material_data']['description'])
 print("Жанры:",response.json()['material_data']['all_genres'])
 webbrowser.open(response.json()['material_data']["poster_url"])
