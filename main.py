@@ -8,15 +8,21 @@ b = Fore.YELLOW
 c = Fore.CYAN
 d=Fore.RESET
 print(a + '\n\t\t' "Добро пожаловать!")
-print(a)
 
 def run():
 
         url = 'https://anime777.ru/api/rand'
         response = requests.get(url)
-        choise = {"genre": input(b + "Введите жанр (Enter если не важно)" + d),
-                  "year": input(b + "Введите год выпуска (Enter если не важно)" + d),
-                  "episodes_total" : input(b + "Введите количество эпизодов (Enter если не важно)" + d)}
+        choise = {"genre": input(b + "Введите жанр (Enter если не важно)" + a),
+                  "year": input(b + "Введите год выпуска (Enter если не важно)" + a),
+                  "episodes_total": input(b + "Введите количество эпизодов (Enter если не важно)" + a)}
+        # while True:
+        #         try:
+        #                 choise = {"genre": input(b + "Введите жанр (Enter если не важно)" + d),
+        #                           "year": input(b + "Введите год выпуска (Enter если не важно)" + d),
+        #                           "episodes_total" : input(b + "Введите количество эпизодов (Enter если не важно)" + d)}
+        #         except IndexError:
+        #                 print("Не соответствует запросу")
         response.raise_for_status()
         response = requests.get(url, params=choise)
         print_request(response)
@@ -25,12 +31,12 @@ def run():
 
 def print_request(response):
 
-        print(c + 'Название:' + d, a, response.json()['title'])
-        print(c + "Озвучка:" + d, a, response.json()['translate'])
-        print(c + "Кол-во эпизодов:" + d, a, response.json()['material_data']['episodes_total'])
-        print(c + "Год выпуска:" + d, a, response.json()['year'])
-        print(c + "Описание:" + d, a, response.json()['material_data']['description'])
-        print(c + "Жанры:" + d, a, response.json()['material_data']['all_genres'])
+        print(c + 'Название:' + d, response.json()['title'])
+        print(c + "Озвучка:" + d, response.json()['translate'])
+        print(c + "Кол-во эпизодов:" + d, response.json()['material_data']['episodes_total'])
+        print(c + "Год выпуска:" + d, response.json()['year'])
+        print(c + "Описание:" + d, response.json()['material_data']['description'])
+        print(c + "Жанры:" + d, response.json()['material_data']['all_genres'])
         webbrowser.open(response.json()['material_data']["poster_url"])
 
 def save_history(response):
@@ -44,7 +50,7 @@ def save_history(response):
                 print("Жанры:", response.json()['material_data']['all_genres'], file=f)
                 print("__________________________________________", file=f)
 def save_to_favourites(response):
-        favourite = input(b + "Добавить в избранное? да/нет")
+        favourite = input(b + "Добавить в избранное? да/нет" + a)
         if favourite == "да":
                 with open("favourite.txt", "a") as h:
                         print('Название:', response.json()['title'], file=h)
@@ -56,7 +62,8 @@ def save_to_favourites(response):
                         print("__________________________________________", file=h)
 run()
 while True:
-        ask = (b + input("Хотите продолжить? да/нет" + a))
+        print(b)
+        ask = (input("Хотите продолжить? да/нет" + a))
         if ask == "да":
                 run()
         else:
